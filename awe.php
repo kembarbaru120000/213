@@ -1,4 +1,3 @@
-<?PNG
 <?php
 /*
 Obfuscation provided by FOPO - Free Online PHP Obfuscator: http://www.fopo.com.ar/
