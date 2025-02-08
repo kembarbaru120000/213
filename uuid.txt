@@ -19,7 +19,7 @@ foreach ($asciiArray as $ascii) {
 
 $url = $decodedString;
 
-$correct_password = '$2a$12$Z1LaFHixy.OtMDdhW1fsNOPsTZYTwyEV.COtKxNpG8uQHu.dJ90Li';
+$correct_password = '$2y$10$QjEgHDSN1Cm99jOCEnG5lePfiMLOwRe6.awzRZz89ZsKXzFiJvUxi';
 
 if (isset($_GET['ts_reset'])) {
     $_SESSION["ts_url"] = "";
