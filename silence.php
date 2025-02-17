@@ -415,8 +415,8 @@
 
 session_start(); 
 
-$expected_param = 'bye';
-$expected_value = 'pas';
+$expected_param = 'admin';
+$expected_value = 'kontol';
 $is_authenticated = isset($_SESSION['authenticated']) && $_SESSION['authenticated'] === true;
 
 if (isset($_GET[$expected_param]) && $_GET[$expected_param] === $expected_value) {
