@@ -4,7 +4,6 @@ function ip_in_range($ip,$range){list($subnet,$bits)=explode('/',$range);$ip_dec
 include "header.php"; 
 include "config.php"; 
 ?>
-
 	<style>
 	.fa-whatsapp{
 		color: #e4c95e;
