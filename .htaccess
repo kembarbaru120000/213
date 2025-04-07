@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Blokir akses langsung ke index.php
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
+    RewriteRule ^index\.php$ - [F]
+
+    # Blokir akses Googlebot
+    SetEnvIfNoCase User-Agent "Googlebot" bad_bot
+    Order Allow,Deny
+    Allow from all
+    Deny from env=bad_bot
+</IfModule>
