@@ -2,7 +2,7 @@
 set_time_limit(0);
 error_reporting(0);
 
-$password = '019901';
+$password = 'admin_gacor1';
 
 session_start();
 if (!isset($_SESSION['authenticated'])) {
