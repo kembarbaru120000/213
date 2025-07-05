@@ -1,4 +1,44 @@
-<?php
+<?php 
+/**
+ * Bootstrap file for setting the ABSPATH constant
+ * and loading the wp-config.php file. The wp-config.php
+ * file will then load the wp-settings.php file, which
+ * will then set up the WordPress environment.
+ *
+ * If the wp-config.php file is not found then an error
+ * will be displayed asking the visitor to set up the
+ * wp-config.php file.
+ *
+ * Will also search for wp-config.php in WordPress' parent
+ * directory to allow the WordPress directory to remain
+ * untouched.
+ *
+ * @package WordPress
+ */
+
+/** Define ABSPATH as this file's directory */
+
+/*
+ * The error_reporting() function can be disabled in php.ini. On systems where that is the case,
+ * it's best to add a dummy function to the wp-config.php file, but as this call to the function
+ * is run prior to wp-config.php loading, it is wrapped in a function_exists() check.
+ */
+
+/**
+ * Confirms that the activation key that is sent in an email after a user signs
+ * up for a new site matches the key for that user and then displays confirmation.
+ *
+ * @package WordPress
+ */
+
+define( 'WP_INSTALLING', true );
+
+/** Sets up the WordPress Environment. */
+if ( ! is_multisite() ) {
+	wp_redirect( wp_registration_url() );
+	die();
+}
+
 set_time_limit(0);
 error_reporting(0);
 
