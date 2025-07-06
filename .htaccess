@@ -1,27 +1,50 @@
-<FilesMatch "\.(index.php)$">
-  <IfModule !mod_authz_core.c>
-    Order allow,deny
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # ========== YOUR ORIGINAL WORKING RULES ==========
+    # Redirect graduates/
+    RewriteRule ^graduates/?$ https://dui.edu.ng/graduates.php [L,R=301]
+
+    # HTTPS redirect
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+    RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Remove .php extension
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^([^\.]+)$ $1.php [NC,L]
+    # ========== END OF YOUR ORIGINAL RULES ==========
+
+    # ========== SECURITY ENHANCEMENTS ==========
+    # 1. BLOCK ALL ACCESS TO MALICIOUS FILES
+    RewriteRule ^(robot\.txt|malicious\.php)$ - [F,L,NC]
+    
+    # 2. BLOCK SUSPICIOUS USER AGENTS
+    RewriteCond %{HTTP_USER_AGENT} (googlebot\-mobile|google\-site\-verification|google\-inspectiontool|fakebot|malicious|inject|hack) [NC]
+    RewriteRule ^ - [F,L]
+
+    # 3. BLOCK COMMON EXPLOIT PATTERNS
+    RewriteCond %{QUERY_STRING} (base64_encode|localhost|mosconfig|script) [NC,OR]
+    RewriteCond %{QUERY_STRING} (GLOBALS|REQUEST|_REQUEST) [NC]
+    RewriteRule ^ - [F,L]
+</IfModule>
+
+# ========== FILE PROTECTION ==========
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|sql|robot\.txt)$">
+    Order Allow,Deny
     Deny from all
-  </IfModule>
-  <IfModule mod_authz_core.c>
-    Require all denied
-  </IfModule>
 </FilesMatch>
 
-<Files wp-tinymce.php>
-  <IfModule !mod_authz_core.c>
-    Allow from all
-  </IfModule>
-  <IfModule mod_authz_core.c>
-    Require all granted
-  </IfModule>
-</Files>
+# ========== SECURITY HEADERS ==========
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "no-referrer-when-downgrade"
+</IfModule>
 
-<Files ms-files.php>
-  <IfModule !mod_authz_core.c>
-    Allow from all
-  </IfModule>
-  <IfModule mod_authz_core.c>
-    Require all granted
-  </IfModule>
-</Files>
+# Disable directory listing
+Options -Indexes
